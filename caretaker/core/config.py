@@ -12,3 +12,10 @@ def get_base_url():
 def get_schedule_cron():
     return os.getenv("GH_SCHEDULE_CRON", "0 3 * * *")
 
+def load_config():
+    return {
+        "github_token": get_token(),
+        "username": get_username(),
+        "base_url": get_base_url(),
+        "schedule_cron": get_schedule_cron()
+    }

@@ -1,0 +1,936 @@
+{
+  "timestamp": "2026-02-10T20:47:03.614081",
+  "version": "2.0",
+  "root_path": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker",
+  "module_dependencies": {
+    "caretaker_cli": [
+      "click",
+      "caretaker.core.config",
+      "caretaker.plugins",
+      "caretaker.core.github_client"
+    ],
+    "caretaker.app": [
+      "caretaker.core.config",
+      "os",
+      "flask",
+      "caretaker.plugins",
+      "caretaker.plugins.monitor",
+      "caretaker.plugins.duplicates",
+      "caretaker.core.github_client",
+      "caretaker.core.reporting"
+    ],
+    "caretaker.scheduler": [
+      "caretaker.core.config",
+      "os",
+      "datetime",
+      "caretaker.plugins",
+      "caretaker.core.github_client",
+      "apscheduler.schedulers.background",
+      "caretaker.core.reporting"
+    ],
+    "caretaker.core.config": [
+      "os"
+    ],
+    "caretaker.core.github_client": [
+      "time",
+      "typing",
+      "requests"
+    ],
+    "caretaker.core.reporting": [
+      "datetime",
+      "json",
+      "os",
+      "typing"
+    ],
+    "caretaker.plugins.dependencies": [
+      "typing"
+    ],
+    "caretaker.plugins.duplicates": [
+      "difflib",
+      "typing"
+    ],
+    "caretaker.plugins.issues": [
+      "datetime",
+      "typing"
+    ],
+    "caretaker.plugins.link_recovery": [
+      "re",
+      "datetime",
+      "typing",
+      "difflib"
+    ],
+    "caretaker.plugins.monitor": [
+      "datetime",
+      "typing",
+      "difflib"
+    ],
+    "caretaker.plugins.repo_explorer": [
+      "os",
+      "re",
+      "json",
+      "collections",
+      "typing",
+      "datetime",
+      "pathlib",
+      "ast"
+    ],
+    "caretaker.plugins.__init__": [
+      "link_recovery",
+      "issues",
+      "typing",
+      "monitor",
+      "dependencies",
+      "repo_explorer",
+      "duplicates"
+    ]
+  },
+  "function_graph": {
+    "caretaker_cli.cli": [
+      "group"
+    ],
+    "caretaker_cli.monitor": [
+      "command",
+      "load_config",
+      "MonitorAgent",
+      "run",
+      "echo",
+      "CareContext",
+      "GitHubClient",
+      "option"
+    ],
+    "caretaker_cli.explore": [
+      "command",
+      "load_config",
+      "run",
+      "echo",
+      "CareContext",
+      "GitHubClient",
+      "RepoExplorerAgent",
+      "option"
+    ],
+    "caretaker_cli.recover_links": [
+      "command",
+      "load_config",
+      "run",
+      "echo",
+      "CareContext",
+      "GitHubClient",
+      "LinkRecoveryAgent",
+      "option"
+    ],
+    "caretaker.app.index": [
+      "list_user_repos",
+      "route",
+      "render_template"
+    ],
+    "caretaker.app.run_plugin": [
+      "write_json",
+      "route",
+      "run",
+      "join",
+      "getcwd",
+      "jsonify"
+    ],
+    "caretaker.app.repos": [
+      "list_user_repos",
+      "route",
+      "render_template"
+    ],
+    "caretaker.app.reports": [
+      "route",
+      "render_template"
+    ],
+    "caretaker.app.cleanup_duplicates": [
+      "sorted",
+      "write_json",
+      "route",
+      "DuplicatesPlugin",
+      "archive_repo",
+      "append",
+      "join",
+      "items",
+      "getcwd",
+      "get",
+      "run",
+      "jsonify",
+      "len"
+    ],
+    "caretaker.scheduler.start": [
+      "get_username",
+      "write_json",
+      "run",
+      "start",
+      "get_token",
+      "CareContext",
+      "add_job",
+      "join",
+      "load_plugins",
+      "GitHubClient",
+      "getcwd",
+      "BackgroundScheduler",
+      "get_base_url"
+    ],
+    "caretaker.scheduler.job": [
+      "write_json",
+      "join",
+      "getcwd",
+      "load_plugins",
+      "run"
+    ],
+    "caretaker.core.config.get_token": [
+      "getenv"
+    ],
+    "caretaker.core.config.get_username": [
+      "getenv"
+    ],
+    "caretaker.core.config.get_base_url": [
+      "getenv"
+    ],
+    "caretaker.core.config.get_schedule_cron": [
+      "getenv"
+    ],
+    "caretaker.core.config.load_config": [
+      "get_token",
+      "get_username",
+      "get_base_url",
+      "get_schedule_cron"
+    ],
+    "caretaker.core.github_client.__init__": [
+      "update",
+      "rstrip",
+      "Session"
+    ],
+    "caretaker.core.github_client._handle_rate": [
+      "int",
+      "sleep",
+      "time",
+      "get",
+      "max"
+    ],
+    "caretaker.core.github_client._request": [
+      "sleep",
+      "lower",
+      "range",
+      "request",
+      "_handle_rate"
+    ],
+    "caretaker.core.github_client.paginate": [
+      "extend",
+      "json",
+      "dict",
+      "update",
+      "_request"
+    ],
+    "caretaker.core.github_client.list_user_repos": [
+      "paginate"
+    ],
+    "caretaker.core.github_client.list_issues": [
+      "paginate"
+    ],
+    "caretaker.core.github_client.create_issue": [
+      "json",
+      "_request"
+    ],
+    "caretaker.core.github_client.close_issue": [
+      "_request"
+    ],
+    "caretaker.core.github_client.get_repo_file": [
+      "json",
+      "_request"
+    ],
+    "caretaker.core.github_client.get_default_branch": [
+      "json",
+      "get",
+      "_request"
+    ],
+    "caretaker.core.github_client.get_repo": [
+      "json",
+      "_request"
+    ],
+    "caretaker.core.github_client.archive_repo": [
+      "_request"
+    ],
+    "caretaker.core.reporting.write_json": [
+      "open",
+      "utcnow",
+      "join",
+      "dump",
+      "isoformat",
+      "makedirs"
+    ],
+    "caretaker.plugins.dependencies.run": [
+      "append",
+      "get_default_branch",
+      "get_repo_file",
+      "list_user_repos",
+      "get"
+    ],
+    "caretaker.plugins.duplicates.normalize": [
+      "isalnum",
+      "lower",
+      "join"
+    ],
+    "caretaker.plugins.duplicates.similar": [
+      "SequenceMatcher",
+      "ratio",
+      "normalize"
+    ],
+    "caretaker.plugins.duplicates.group": [
+      "append",
+      "keys",
+      "list",
+      "similar",
+      "get",
+      "setdefault"
+    ],
+    "caretaker.plugins.duplicates.choose_hero": [
+      "sorted",
+      "get"
+    ],
+    "caretaker.plugins.duplicates.run": [
+      "choose_hero",
+      "append",
+      "group",
+      "items",
+      "list_user_repos",
+      "len"
+    ],
+    "caretaker.plugins.issues.run": [
+      "utcnow",
+      "append",
+      "list_user_repos",
+      "get",
+      "strptime",
+      "timedelta",
+      "len",
+      "list_issues"
+    ],
+    "caretaker.plugins.link_recovery.__init__": [
+      "__init__",
+      "super"
+    ],
+    "caretaker.plugins.link_recovery.extract_issue_references": [
+      "sorted",
+      "int",
+      "finditer",
+      "set",
+      "group",
+      "list",
+      "update"
+    ],
+    "caretaker.plugins.link_recovery.calculate_semantic_similarity": [
+      "extract_keywords",
+      "ratio",
+      "normalize_text",
+      "SequenceMatcher",
+      "min",
+      "len",
+      "max"
+    ],
+    "caretaker.plugins.link_recovery.normalize_text": [
+      "lower",
+      "strip",
+      "sub"
+    ],
+    "caretaker.plugins.link_recovery.extract_keywords": [
+      "split",
+      "len",
+      "normalize_text"
+    ],
+    "caretaker.plugins.link_recovery.temporal_proximity_score": [
+      "abs",
+      "total_seconds"
+    ],
+    "caretaker.plugins.link_recovery.lazy_access_commit_history": [
+      "list_commits",
+      "print",
+      "len",
+      "extend"
+    ],
+    "caretaker.plugins.link_recovery.recover_links_for_repo": [
+      "replace",
+      "calculate_semantic_similarity",
+      "sorted",
+      "lazy_access_commit_history",
+      "append",
+      "extract_issue_references",
+      "get",
+      "temporal_proximity_score",
+      "len",
+      "list_issues",
+      "fromisoformat",
+      "round"
+    ],
+    "caretaker.plugins.link_recovery.run": [
+      "append",
+      "list_user_repos",
+      "get",
+      "recover_links_for_repo",
+      "len"
+    ],
+    "caretaker.plugins.monitor.__init__": [
+      "__init__",
+      "super"
+    ],
+    "caretaker.plugins.monitor.track_agent_communication": [
+      "now",
+      "append",
+      "auto_correct_communication",
+      "validate_message_semantics",
+      "isoformat"
+    ],
+    "caretaker.plugins.monitor.validate_message_semantics": [
+      "check_dependencies",
+      "get_required_fields",
+      "get_valid_actions"
+    ],
+    "caretaker.plugins.monitor.auto_correct_communication": [
+      "copy",
+      "get_field_default",
+      "now",
+      "append",
+      "find_closest_action",
+      "get_required_fields",
+      "get",
+      "isoformat",
+      "get_valid_actions"
+    ],
+    "caretaker.plugins.monitor.get_required_fields": [
+      "get"
+    ],
+    "caretaker.plugins.monitor.get_valid_actions": [
+      "get"
+    ],
+    "caretaker.plugins.monitor.get_field_default": [
+      "get"
+    ],
+    "caretaker.plugins.monitor.check_dependencies": [
+      "append"
+    ],
+    "caretaker.plugins.monitor.find_closest_action": [
+      "get_close_matches"
+    ],
+    "caretaker.plugins.monitor.update_agent_state": [
+      "now",
+      "isoformat"
+    ],
+    "caretaker.plugins.monitor.run": [
+      "calculate_health_score",
+      "len",
+      "get"
+    ],
+    "caretaker.plugins.monitor.calculate_health_score": [
+      "len"
+    ],
+    "caretaker.plugins.repo_explorer.__init__": [
+      "__init__",
+      "super",
+      "defaultdict",
+      "set"
+    ],
+    "caretaker.plugins.repo_explorer.analyze_local_path": [
+      "detect_external_services",
+      "detect_api_endpoints",
+      "build_hierarchical_code_tree",
+      "detect_database_schemas",
+      "print",
+      "identify_essential_components",
+      "build_function_call_graph",
+      "build_module_dependency_graph"
+    ],
+    "caretaker.plugins.repo_explorer.build_function_call_graph": [
+      "Path",
+      "open",
+      "parse",
+      "read",
+      "get_module_name",
+      "str",
+      "defaultdict",
+      "items",
+      "list",
+      "walk",
+      "add",
+      "len",
+      "isinstance",
+      "rglob"
+    ],
+    "caretaker.plugins.repo_explorer.build_module_dependency_graph": [
+      "Path",
+      "open",
+      "parse",
+      "read",
+      "get_module_name",
+      "str",
+      "defaultdict",
+      "items",
+      "list",
+      "walk",
+      "add",
+      "len",
+      "isinstance",
+      "rglob"
+    ],
+    "caretaker.plugins.repo_explorer.build_hierarchical_code_tree": [
+      "Path",
+      "sorted",
+      "basename",
+      "append",
+      "str",
+      "iterdir",
+      "startswith",
+      "is_file",
+      "extract_function_names",
+      "build_tree",
+      "stat",
+      "is_dir"
+    ],
+    "caretaker.plugins.repo_explorer.identify_essential_components": [
+      "sorted",
+      "defaultdict",
+      "items",
+      "append"
+    ],
+    "caretaker.plugins.repo_explorer.detect_api_endpoints": [
+      "Path",
+      "read",
+      "open",
+      "finditer",
+      "append",
+      "group",
+      "str",
+      "upper",
+      "rglob"
+    ],
+    "caretaker.plugins.repo_explorer.detect_database_schemas": [
+      "Path",
+      "open",
+      "read",
+      "append",
+      "str",
+      "rglob"
+    ],
+    "caretaker.plugins.repo_explorer.detect_external_services": [
+      "open",
+      "read",
+      "set",
+      "endswith",
+      "join",
+      "list",
+      "lower",
+      "add",
+      "walk"
+    ],
+    "caretaker.plugins.repo_explorer.get_module_name": [
+      "list",
+      "relative_to",
+      "join"
+    ],
+    "caretaker.plugins.repo_explorer.extract_function_names": [
+      "open",
+      "parse",
+      "read",
+      "isinstance",
+      "walk"
+    ],
+    "caretaker.plugins.repo_explorer.generate_mermaid_html": [
+      "open",
+      "replace",
+      "now",
+      "dumps",
+      "join",
+      "items",
+      "write",
+      "len",
+      "isoformat",
+      "upper"
+    ],
+    "caretaker.plugins.repo_explorer.run": [
+      "open",
+      "now",
+      "analyze_local_path",
+      "join",
+      "items",
+      "getcwd",
+      "list",
+      "generate_mermaid_html",
+      "dump",
+      "len",
+      "isoformat"
+    ],
+    "caretaker.plugins.repo_explorer.build_tree": [
+      "sorted",
+      "append",
+      "build_tree",
+      "str",
+      "iterdir",
+      "is_file",
+      "extract_function_names",
+      "startswith",
+      "stat",
+      "is_dir"
+    ],
+    "caretaker.plugins.__init__.load_plugins": [
+      "MonitorAgent",
+      "DuplicatesPlugin",
+      "IssuesPlugin",
+      "RepoExplorerAgent",
+      "LinkRecoveryAgent",
+      "DependenciesPlugin"
+    ]
+  },
+  "essential_components": [
+    {
+      "component": "append",
+      "call_count": 15,
+      "importance": "high"
+    },
+    {
+      "component": "get",
+      "call_count": 14,
+      "importance": "high"
+    },
+    {
+      "component": "len",
+      "call_count": 14,
+      "importance": "high"
+    },
+    {
+      "component": "join",
+      "call_count": 10,
+      "importance": "high"
+    },
+    {
+      "component": "open",
+      "call_count": 9,
+      "importance": "high"
+    },
+    {
+      "component": "run",
+      "call_count": 7,
+      "importance": "high"
+    },
+    {
+      "component": "sorted",
+      "call_count": 7,
+      "importance": "high"
+    },
+    {
+      "component": "items",
+      "call_count": 7,
+      "importance": "high"
+    },
+    {
+      "component": "_request",
+      "call_count": 7,
+      "importance": "high"
+    },
+    {
+      "component": "list",
+      "call_count": 7,
+      "importance": "high"
+    },
+    {
+      "component": "list_user_repos",
+      "call_count": 6,
+      "importance": "high"
+    },
+    {
+      "component": "isoformat",
+      "call_count": 6,
+      "importance": "high"
+    },
+    {
+      "component": "read",
+      "call_count": 6,
+      "importance": "high"
+    },
+    {
+      "component": "str",
+      "call_count": 6,
+      "importance": "high"
+    },
+    {
+      "component": "route",
+      "call_count": 5,
+      "importance": "high"
+    },
+    {
+      "component": "getcwd",
+      "call_count": 5,
+      "importance": "high"
+    },
+    {
+      "component": "json",
+      "call_count": 5,
+      "importance": "high"
+    },
+    {
+      "component": "now",
+      "call_count": 5,
+      "importance": "high"
+    },
+    {
+      "component": "Path",
+      "call_count": 5,
+      "importance": "high"
+    },
+    {
+      "component": "group",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "CareContext",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "GitHubClient",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "write_json",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "getenv",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "lower",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "defaultdict",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "walk",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "rglob",
+      "call_count": 4,
+      "importance": "medium"
+    },
+    {
+      "component": "command",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "load_config",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "echo",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "option",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "render_template",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "update",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "__init__",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "super",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "set",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "parse",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "add",
+      "call_count": 3,
+      "importance": "medium"
+    },
+    {
+      "component": "isinstance",
+      "call_count": 3,
+      "importance": "medium"
+    }
+  ],
+  "api_endpoints": [
+    {
+      "path": "/",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker\\app.py",
+      "type": "Flask"
+    },
+    {
+      "path": "/run/<name>",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker\\app.py",
+      "type": "Flask"
+    },
+    {
+      "path": "/repos",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker\\app.py",
+      "type": "Flask"
+    },
+    {
+      "path": "/reports",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker\\app.py",
+      "type": "Flask"
+    },
+    {
+      "path": "/cleanup/duplicates",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker\\app.py",
+      "type": "Flask"
+    },
+    {
+      "method": "POST",
+      "path": "/api/agents/register",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\agents.js",
+      "type": "Express"
+    },
+    {
+      "method": "POST",
+      "path": "/api/agents/webhook",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\agents.js",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/validate",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\index.js",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/pins/recommendations",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\index.js",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/duplicates/scan",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\index.js",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/duplicates/content-scan",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\index.js",
+      "type": "Express"
+    },
+    {
+      "method": "POST",
+      "path": "/api/security/rotate",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\index.js",
+      "type": "Express"
+    },
+    {
+      "method": "POST",
+      "path": "/api/agents/register",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\agents.ts",
+      "type": "Express"
+    },
+    {
+      "method": "POST",
+      "path": "/api/agents/webhook",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\agents.ts",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/validate",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\index.ts",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/pins/recommendations",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\index.ts",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/duplicates/scan",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\index.ts",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/duplicates/content-scan",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\index.ts",
+      "type": "Express"
+    },
+    {
+      "method": "POST",
+      "path": "/api/security/rotate",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\index.ts",
+      "type": "Express"
+    },
+    {
+      "method": "POST",
+      "path": "/api/security/webhook",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\plugins\\security.ts",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/security/metrics",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\src\\plugins\\security.ts",
+      "type": "Express"
+    },
+    {
+      "method": "POST",
+      "path": "/api/security/webhook",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\plugins\\security.js",
+      "type": "Express"
+    },
+    {
+      "method": "GET",
+      "path": "/api/security/metrics",
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker-js\\server\\dist\\plugins\\security.js",
+      "type": "Express"
+    }
+  ],
+  "database_schemas": [
+    {
+      "file": "C:\\Users\\Lyndz\\Downloads\\My GitHub CareTaker\\caretaker\\plugins\\repo_explorer.py",
+      "type": "ORM Model"
+    }
+  ],
+  "external_services": [
+    "boto3",
+    "discord",
+    "openai",
+    "twilio",
+    "stripe",
+    "slack",
+    "sendgrid",
+    "github"
+  ],
+  "total_modules": 13,
+  "total_functions": 72
+}

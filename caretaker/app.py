@@ -10,8 +10,17 @@ from caretaker.plugins.duplicates import DuplicatesPlugin
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
 client = GitHubClient(get_token(), get_base_url())
-ctx = CareContext(client, get_username())
 plugins = load_plugins()
+
+# Extract MonitorAgent singleton to pass into context
+monitor_agent = next((p for p in plugins if p.name == "monitor"), None)
+# If not found (shouldn't happen), create one
+if not monitor_agent:
+    from caretaker.plugins.monitor import MonitorAgent
+    monitor_agent = MonitorAgent()
+    plugins.append(monitor_agent)
+
+ctx = CareContext(client, get_username(), monitor=monitor_agent)
 
 @app.route("/")
 def index():
