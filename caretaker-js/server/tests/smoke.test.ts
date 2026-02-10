@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { app } from '../src/index'
 import Redis from 'ioredis-mock'
-import { describe, expect, test, beforeAll, afterAll } from '@jest/globals'
+import { describe, expect, test, beforeAll, afterAll, jest } from '@jest/globals'
 
 // Mock dependencies
 jest.mock('ioredis', () => require('ioredis-mock'))
