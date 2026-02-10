@@ -49,4 +49,8 @@ app.post('/api/security/rotate', async (req, res)=>{
 securityRoutes(app, gh, redis, verifySignature(redis))
 agentRoutes(app, redis)
 
-app.listen(config.port, ()=> logger.info({ port: config.port }, 'server started'))
+export { app }
+
+if (require.main === module) {
+  app.listen(config.port, ()=> logger.info({ port: config.port }, 'server started'))
+}
