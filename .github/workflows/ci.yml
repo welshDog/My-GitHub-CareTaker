@@ -1,0 +1,68 @@
+name: BROski CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - name: Install dependencies (server)
+        working-directory: caretaker-js/server
+        run: npm ci
+      - name: Build server
+        working-directory: caretaker-js/server
+        run: npm run build
+      - name: Install dependencies (web)
+        working-directory: caretaker-js/web
+        run: npm ci
+      - name: Build web
+        working-directory: caretaker-js/web
+        run: npm run build
+
+  test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+      - name: Install dependencies (server)
+        working-directory: caretaker-js/server
+        run: npm ci
+      - name: Run Tests (Server)
+        working-directory: caretaker-js/server
+        run: npm run test
+        env:
+          CI: true
+
+  security-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'npm'
+      - name: Audit Server Deps
+        working-directory: caretaker-js/server
+        run: npm audit --audit-level=high
+      - name: Audit Web Deps
+        working-directory: caretaker-js/web
+        run: npm audit --audit-level=high

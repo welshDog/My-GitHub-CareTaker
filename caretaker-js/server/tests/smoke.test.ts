@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { app } from '../src/index'
 import Redis from 'ioredis-mock'
-import { describe, expect, test, beforeAll, afterAll, jest } from '@jest/globals'
+import { describe, expect, test, beforeAll, afterAll } from '@jest/globals'
 
 // Mock dependencies
 jest.mock('ioredis', () => require('ioredis-mock'))
@@ -18,11 +18,11 @@ jest.mock('../src/config', () => ({
 jest.mock('../src/github', () => {
   return {
     GitHub: jest.fn().mockImplementation(() => ({
-      viewer: jest.fn().mockResolvedValue({ viewer: { login: 'tester' } }),
-      reposByUser: jest.fn().mockResolvedValue([
+      viewer: jest.fn().mockImplementation(() => Promise.resolve({ viewer: { login: 'tester' } })),
+      reposByUser: jest.fn().mockImplementation(() => Promise.resolve([
         { name: 'repo1', description: 'test repo', stargazerCount: 10, forkCount: 2, updatedAt: '2023-01-01', pushedAt: '2023-01-01' },
         { name: 'repo2', description: 'test repo', stargazerCount: 5, forkCount: 0, updatedAt: '2023-01-01', pushedAt: '2023-01-01' }
-      ])
+      ]))
     }))
   }
 })
@@ -51,10 +51,6 @@ describe('API Smoke Tests', () => {
   test('GET /api/duplicates/content-scan', async () => {
     const res = await request(app).get('/api/duplicates/content-scan?a=repo1&b=repo2')
     expect(res.status).toBe(200)
-    // contentSimilarity returns a number or object depending on implementation, 
-    // here we just check status as mock might return undefined or error if not fully mocked
-    // The current mock for contentSimilarity is not explicit, so it uses real logic or fails if redis missing
-    // We mocked ioredis so it should be fine.
   })
   
   test('POST /api/security/rotate', async () => {
