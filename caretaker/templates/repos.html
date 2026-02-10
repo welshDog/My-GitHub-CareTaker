@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+  <h2>Repositories</h2>
+  <table>
+    <thead>
+      <tr><th>Name</th><th>Visibility</th><th>Updated</th></tr>
+    </thead>
+    <tbody>
+      {% for r in repos %}
+      <tr>
+        <td>{{ r.name }}</td>
+        <td>{{ r.visibility or r.private and 'private' or 'public' }}</td>
+        <td>{{ r.pushed_at or r.updated_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}
+

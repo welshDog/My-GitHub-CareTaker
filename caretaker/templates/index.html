@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<section>
+  <h2>Overview</h2>
+  <div class="grid">
+    <button data-plugin="duplicates">Run Duplicate Scan</button>
+    <button data-plugin="issues">Scan Stale Issues</button>
+    <button data-plugin="dependencies">Find Dependency Files</button>
+  </div>
+  <pre id="result"></pre>
+</section>
+{% endblock %}
+

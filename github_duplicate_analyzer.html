@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GitHub Repository Duplicate Analyzer</title>
+  <style>body{font-family:system-ui;background:#0f1115;color:#e6e6e6;padding:24px}button{padding:10px 14px;background:#2b6cb0;color:#fff;border:0;border-radius:8px}pre{background:#151922;padding:12px;border-radius:8px;overflow:auto}</style>
+</head>
+<body>
+  <h1>GitHub Repository Duplicate Analyzer</h1>
+  <p>Start the CareTaker server and press the button to analyze duplicates.</p>
+  <button id="scan">Run Duplicate Scan</button>
+  <pre id="out"></pre>
+  <script>
+    document.getElementById('scan').onclick=async()=>{
+      const r=await fetch('http://127.0.0.1:5001/run/duplicates')
+      const j=await r.json()
+      document.getElementById('out').textContent=JSON.stringify(j,null,2)
+    }
+  </script>
+</body>
+</html>
