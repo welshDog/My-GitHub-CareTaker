@@ -2,19 +2,10 @@
 """Enhanced CareTaker CLI with v2.0 agents"""
 
 import click
-from caretaker.plugins import (
-    DuplicatesPlugin, 
-    MonitorAgent, 
-    RepoExplorerAgent,
-    LinkRecoveryAgent
-)
-from caretaker.core.config import load_config
-from caretaker.core.github_client import GitHubClient
-
-class CareContext:
-    def __init__(self, owner, client):
-        self.owner = owner
-        self.client = client
+import shutil
+import os
+from caretaker.plugins import get_plugin
+from caretaker.core.context import build_context
 
 @click.group()
 def cli():
@@ -25,11 +16,9 @@ def cli():
 @click.option('--owner', required=True, help='GitHub username or org')
 def monitor(owner):
     """Run Monitor Agent to check multi-agent system health"""
-    cfg = load_config()
-    client = GitHubClient(cfg['github_token'], cfg['base_url'])
-    ctx = CareContext(owner, client)
+    ctx = build_context(owner)
     
-    agent = MonitorAgent()
+    agent = get_plugin('monitor')
     result = agent.run(ctx)
     
     click.echo(f"🔍 Monitor Agent Report:")
@@ -39,13 +28,12 @@ def monitor(owner):
 
 @cli.command()
 @click.option('--owner', required=True)
-def explore(owner):
+@click.option('--output', required=False, help='Optional output file path for report')
+def explore(owner, output):
     """Run Repository Explorer to analyze code structure"""
-    cfg = load_config()
-    client = GitHubClient(cfg['github_token'], cfg['base_url'])
-    ctx = CareContext(owner, client)
+    ctx = build_context(owner)
     
-    agent = RepoExplorerAgent()
+    agent = get_plugin('repo_explorer')
     result = agent.run(ctx)
     
     click.echo(f"🗺️  Repository Explorer:")
@@ -56,16 +44,20 @@ def explore(owner):
     click.echo(f"   Artifacts Generated:")
     for file in result['files_generated']:
         click.echo(f"     - {file}")
+    
+    if output:
+        # Copy the JSON artifact to the requested output path
+        src_json = result['files_generated'][0] # Assuming first is JSON based on plugin logic
+        shutil.copy2(src_json, output)
+        click.echo(f"   Report exported to: {output}")
 
 @cli.command()
 @click.option('--owner', required=True)
 def recover_links(owner):
     """Run Link Recovery Agent to fix broken issue-commit links"""
-    cfg = load_config()
-    client = GitHubClient(cfg['github_token'], cfg['base_url'])
-    ctx = CareContext(owner, client)
+    ctx = build_context(owner)
     
-    agent = LinkRecoveryAgent()
+    agent = get_plugin('link_recovery')
     result = agent.run(ctx)
     
     click.echo(f"🔗 Link Recovery Agent:")

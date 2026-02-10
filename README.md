@@ -12,6 +12,46 @@ The ultimate autonomous agent suite designed to optimize, clean, and visualize y
 - **Neurodivergent UX**: Features like Hyperfocus Mode and 3D constellation visualizations.
 - **Agent Swarm**: Multi-agent architecture for specialized tasks (Cleanup, Documentation, Security).
 - **Automated Infrastructure**: Built-in CI/CD, security auditing, and performance metrics.
+- **Auto Architecture Mapping**: Scans your repo and generates interactive `architecture_map.html` and detailed `architecture_map.json`, capturing modules, routes, and agent boundaries.
+
+## 🗺 Architecture Map
+
+This repo includes an auto-generated architecture explorer:
+
+- `architecture_map.html` – interactive dependency + API map
+- `architecture_map.json` – machine-readable graph for agents
+
+Regenerate anytime:
+
+```bash
+python caretaker_cli.py explore --owner welshDog
+```
+
+### System Overview
+The v2.0 architecture features a clear separation between the Core logic and Plugin Agents:
+- **Core Layer**: `caretaker.core` handles configuration, GitHub API client, and reporting.
+- **Plugin Layer**: `caretaker.plugins` contains specialized agents (Monitor, Repo Explorer, Link Recovery).
+- **Hybrid Stack**: Seamless integration between Python backend (Flask) and JavaScript frontend (Express/React).
+
+## 🧠 Self-Aware Architecture
+
+CareTaker isn't just a collection of scripts; it understands its own structure.
+
+Run the explorer to generate a live map of the system:
+
+```bash
+python caretaker_cli.py explore --owner welshDog --output latest_arch.json
+```
+
+This generates:
+
+- `latest_arch.json`: Full dependency + call graph of the running agents.
+- `architecture_report.md`: Principal-engineer style review (risks, refactors, security notes).
+
+This architectural self-awareness allows agents to:
+1.  **Monitor themselves**: The MonitorAgent checks the health of other plugins.
+2.  **Optimize performance**: Lazy-loading ensures only required agents are active.
+3.  **Heal configuration**: The system can detect missing dependencies and alert the user.
 
 ## 🌟 Pinned Repositories
 
