@@ -15,6 +15,8 @@ The ultimate autonomous agent suite designed to optimize, clean, and visualize y
 
 ## 🌟 Pinned Repositories
 
+These links are live projects in my ecosystem – CareTaker doesn’t own them, it helps **orchestrate and maintain** them.
+
 Here are the top projects currently in the Hyperfocus Constellation:
 
 1.  **[GitHub-Hyper-Agent-BROski](https://github.com/welshDog/GitHub-Hyper-Agent-BROski)**
@@ -45,14 +47,25 @@ The HyperCode engine has scanned the codebase for redundancies. Redundant JavaSc
 
 ## 📦 Installation & Usage
 
-```bash
-# Clone the repository
-git clone https://github.com/welshDog/GitHub-Hyper-Agent-BROski.git
+### 1. Clone this repo
 
-# Install dependencies
+```bash
+git clone https://github.com/welshDog/My-GitHub-CareTaker.git
+cd My-GitHub-CareTaker
+```
+
+### 2. Start the web UI (JS server)
+
+```bash
 cd caretaker-js/server
 npm install
-
-# Run the agent
 npm start
+```
+
+### 3. (Optional) Run the Python CLI
+
+```bash
+cd ../..
+pip install -r requirements.txt
+python caretaker_cli.py --username welshDog
 ```
