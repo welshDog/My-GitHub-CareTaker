@@ -32,6 +32,7 @@ venv/
 
 # Environment
 .env
+.ENV
 .env.local
 .env.*.local
 
