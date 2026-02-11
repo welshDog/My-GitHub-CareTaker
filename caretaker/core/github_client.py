@@ -95,6 +95,11 @@ class GitHubClient:
         resp = self._request("PUT", f"/repos/{owner}/{repo}/topics", json={"names": topics})
         return resp.status_code == 200
 
+    def update_authenticated_user(self, **kwargs) -> bool:
+        """Update the authenticated user's profile (bio, blog, etc.)."""
+        resp = self._request("PATCH", "/user", json=kwargs)
+        return resp.status_code == 200
+
     def archive_repo(self, owner: str, repo: str) -> bool:
         return self.update_repo(owner, repo, archived=True)
 

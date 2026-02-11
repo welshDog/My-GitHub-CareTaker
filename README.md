@@ -1,4 +1,6 @@
 ![CI](https://github.com/welshDog/My-GitHub-CareTaker/actions/workflows/ci.yml/badge.svg)
+![Hosted on IPFS](https://img.shields.io/badge/Hosted_on-IPFS-65c2cb?logo=ipfs)
+![Web3 Enabled](https://img.shields.io/badge/Web3-Enabled-FF3E00?logo=ethereum)
 
 # GitHub CareTaker
 
