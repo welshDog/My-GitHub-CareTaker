@@ -9,7 +9,8 @@ interactions between Cleanup, Documentation, and Security agents.
 
 from typing import Dict, List, Optional
 from datetime import datetime
-from . import Plugin, CareContext
+from . import Plugin
+from caretaker.core.context import CareContext
 
 class MonitorAgent(Plugin):
     name = "monitor"

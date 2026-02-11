@@ -15,7 +15,8 @@ from typing import Dict, List, Set, Tuple, Optional
 from pathlib import Path
 from collections import defaultdict
 from datetime import datetime
-from . import Plugin, CareContext
+from . import Plugin
+from caretaker.core.context import CareContext
 
 class RepoExplorerAgent(Plugin):
     name = "repo_explorer"

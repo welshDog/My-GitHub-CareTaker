@@ -1,6 +1,7 @@
 from typing import Dict, List
 
-from . import Plugin, CareContext
+from . import Plugin
+from caretaker.core.context import CareContext
 
 class DependenciesPlugin(Plugin):
     name = "dependencies"

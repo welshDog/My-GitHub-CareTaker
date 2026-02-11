@@ -1,7 +1,8 @@
 from typing import Dict, List
 from datetime import datetime, timedelta
 
-from . import Plugin, CareContext
+from . import Plugin
+from caretaker.core.context import CareContext
 
 class IssuesPlugin(Plugin):
     name = "issues"

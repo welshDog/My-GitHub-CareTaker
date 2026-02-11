@@ -1,7 +1,8 @@
 from typing import Dict, List, Tuple
 from difflib import SequenceMatcher
 
-from . import Plugin, CareContext
+from . import Plugin
+from caretaker.core.context import CareContext
 
 def normalize(name: str) -> str:
     return ''.join(ch.lower() for ch in name if ch.isalnum())

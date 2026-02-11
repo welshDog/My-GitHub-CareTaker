@@ -10,7 +10,8 @@ Uses lazy-access to handle long commit histories without token overflow
 from typing import Dict, List, Optional, Set, Tuple
 from datetime import datetime, timedelta
 from difflib import SequenceMatcher
-from . import Plugin, CareContext
+from . import Plugin
+from caretaker.core.context import CareContext
 
 class LinkRecoveryAgent(Plugin):
     name = "link_recovery"
