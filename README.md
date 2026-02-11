@@ -1,3 +1,5 @@
+![CI](https://github.com/welshDog/My-GitHub-CareTaker/actions/workflows/ci.yml/badge.svg)
+
 # GitHub CareTaker
 
 ![CI](https://github.com/welshDog/GitHub-Hyper-Agent-BROski/actions/workflows/ci.yml/badge.svg)
