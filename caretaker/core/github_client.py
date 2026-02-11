@@ -85,6 +85,61 @@ class GitHubClient:
             return resp.json()
         return None
 
-    def archive_repo(self, owner: str, repo: str) -> bool:
-        resp = self._request("PATCH", f"/repos/{owner}/{repo}", json={"archived": True})
+    def update_repo(self, owner: str, repo: str, **kwargs) -> bool:
+        resp = self._request("PATCH", f"/repos/{owner}/{repo}", json=kwargs)
         return resp.status_code == 200
+
+    def update_topics(self, owner: str, repo: str, topics: List[str]) -> bool:
+        """Replace all topics for a repository."""
+        # GitHub API expects {"names": ["topic1", "topic2"]}
+        resp = self._request("PUT", f"/repos/{owner}/{repo}/topics", json={"names": topics})
+        return resp.status_code == 200
+
+    def archive_repo(self, owner: str, repo: str) -> bool:
+        return self.update_repo(owner, repo, archived=True)
+
+    def create_repo(self, name: str, **kwargs) -> Optional[Dict[str, Any]]:
+        resp = self._request("POST", "/user/repos", json={"name": name, **kwargs})
+        if resp.status_code in (200, 201):
+            return resp.json()
+        return None
+
+    def create_or_update_file(self, owner: str, repo: str, path: str, content: str, message: str, branch: str = "main") -> bool:
+        import base64
+        # Check if file exists to get sha
+        current_file = self.get_repo_file(owner, repo, path, ref=branch)
+        sha = current_file["sha"] if current_file else None
+        
+        encoded_content = base64.b64encode(content.encode("utf-8")).decode("utf-8")
+        data = {
+            "message": message,
+            "content": encoded_content,
+            "branch": branch
+        }
+        if sha:
+            data["sha"] = sha
+            
+        resp = self._request("PUT", f"/repos/{owner}/{repo}/contents/{path}", json=data)
+        return resp.status_code in (200, 201)
+
+    def graphql(self, query: str, variables: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, Any]]:
+        resp = self._request("POST", "/graphql", json={"query": query, "variables": variables or {}})
+        if resp.status_code == 200:
+            return resp.json()
+        return None
+
+    def enable_pages(self, owner: str, repo: str, branch: str = "main", path: str = "/") -> bool:
+        # Check if already enabled
+        resp = self._request("GET", f"/repos/{owner}/{repo}/pages")
+        if resp.status_code == 200:
+            return True
+            
+        headers = {"Accept": "application/vnd.github.switcheroo-preview+json"}
+        data = {
+            "source": {
+                "branch": branch,
+                "path": path
+            }
+        }
+        resp = self._request("POST", f"/repos/{owner}/{repo}/pages", json=data) # Header might not be needed anymore, but safe to keep or try standard
+        return resp.status_code in (200, 201)

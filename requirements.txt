@@ -5,3 +5,4 @@ PyGithub>=2.1.1
 astroid>=3.0.0
 networkx>=3.0
 click>=8.0.0
+python-dotenv>=1.0.0
