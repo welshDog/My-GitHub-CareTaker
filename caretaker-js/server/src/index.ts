@@ -47,9 +47,9 @@ app.post('/api/security/rotate', async (req, res)=>{
   res.json({ ok:true })
 })
 securityRoutes(app, gh, redis, verifySignature(redis))
-agentRoutes(app, redis)
+const { queueInterval, reviewInterval } = agentRoutes(app, redis)
 
-export { app }
+export { app, redis, gh, queueInterval, reviewInterval }
 
 if (require.main === module) {
   app.listen(config.port, ()=> logger.info({ port: config.port }, 'server started'))

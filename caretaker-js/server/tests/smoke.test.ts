@@ -1,5 +1,5 @@
 import request from 'supertest'
-import { app } from '../src/index'
+import { app, redis, queueInterval, reviewInterval } from '../src/index'
 import Redis from 'ioredis-mock'
 import { describe, expect, test, beforeAll, afterAll, jest } from '@jest/globals'
 
@@ -62,5 +62,12 @@ describe('API Smoke Tests', () => {
   test('POST /api/security/rotate missing secret', async () => {
     const res = await request(app).post('/api/security/rotate').send({})
     expect(res.status).toBe(400)
+  })
+
+  // Clean up Redis mock after all tests
+  afterAll(async () => {
+    clearInterval(queueInterval)
+    clearInterval(reviewInterval)
+    await redis.quit()
   })
 })

@@ -11,10 +11,10 @@ class CareContext:
 def build_context(owner: Optional[str] = None) -> CareContext:
     """Factory to create a fully initialized CareContext"""
     cfg = load_config()
-    client = GitHubClient(cfg['github_token'], cfg['base_url'])
+    client = GitHubClient(cfg.github_token, cfg.base_url)
     
     # If owner is not provided, try to get from config
     if not owner:
-        owner = cfg.get('username')
+        owner = cfg.username
         
     return CareContext(owner=owner, client=client)

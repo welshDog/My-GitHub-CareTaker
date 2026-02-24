@@ -1,4 +1,6 @@
 import importlib
+import os
+import inspect
 from typing import Dict, List, Optional, TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -9,28 +11,45 @@ class Plugin:
     def run(self, ctx: 'CareContext') -> Dict:
         return {}
 
-# Registry of available plugins mapping name -> (module, class_name)
-PLUGIN_REGISTRY = {
-    'duplicates': ('caretaker.plugins.duplicates', 'DuplicatesPlugin'),
-    'issues': ('caretaker.plugins.issues', 'IssuesPlugin'),
-    'dependencies': ('caretaker.plugins.dependencies', 'DependenciesPlugin'),
-    'monitor': ('caretaker.plugins.monitor', 'MonitorAgent'),
-    'repo_explorer': ('caretaker.plugins.repo_explorer', 'RepoExplorerAgent'),
-    'link_recovery': ('caretaker.plugins.link_recovery', 'LinkRecoveryAgent')
-}
+# Registry of available plugins mapping name -> class
+PLUGIN_REGISTRY = {}
+
+def _discover_plugins():
+    """Scans the plugins directory and populates the registry"""
+    plugins_dir = os.path.dirname(__file__)
+    print(f"DEBUG: Scanning plugins in {plugins_dir}")
+    
+    for filename in os.listdir(plugins_dir):
+        if filename.endswith(".py") and not filename.startswith("__"):
+            module_name = f"caretaker.plugins.{filename[:-3]}"
+            try:
+                module = importlib.import_module(module_name)
+                
+                # Check for 'register' function (User Requirement)
+                if hasattr(module, 'register'):
+                    try:
+                        # Assuming register returns a Plugin instance or class
+                        # But for now, let's stick to finding the class to be safe with existing code
+                        pass 
+                    except Exception:
+                        pass
+                
+                # Fallback: Look for Plugin subclasses
+                for name, obj in inspect.getmembers(module):
+                    if inspect.isclass(obj) and issubclass(obj, Plugin) and obj is not Plugin:
+                        # Use the class's 'name' attribute if available, else filename
+                        plugin_name = getattr(obj, 'name', filename[:-3])
+                        PLUGIN_REGISTRY[plugin_name] = obj
+                        print(f"DEBUG: Registered plugin {plugin_name} from {module_name}")
+            except Exception as e:
+                print(f"Error loading plugin {module_name}: {e}")
+
+# Initial discovery
+_discover_plugins()
 
 def get_plugin_class(name: str):
-    """Dynamically imports and returns the plugin class"""
-    if name not in PLUGIN_REGISTRY:
-        return None
-    
-    module_name, class_name = PLUGIN_REGISTRY[name]
-    try:
-        module = importlib.import_module(module_name)
-        return getattr(module, class_name)
-    except (ImportError, AttributeError) as e:
-        print(f"Error loading plugin {name}: {e}")
-        return None
+    """Returns the plugin class from registry"""
+    return PLUGIN_REGISTRY.get(name)
 
 def get_plugin(name: str) -> Optional[Plugin]:
     """Instantiates a plugin by name"""

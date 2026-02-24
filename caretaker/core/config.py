@@ -15,3 +15,6 @@ class Config:
 
 def load_config() -> Config:
     return Config()
+
+def get_username() -> str:
+    return load_config().username

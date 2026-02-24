@@ -1,5 +1,7 @@
 import os
-from flask import Flask, render_template, jsonify, request
+import jwt
+from functools import wraps
+from flask import Flask, render_template, jsonify, request, g
 
 from caretaker.core.config import get_username
 from caretaker.plugins import load_plugins, get_plugin
@@ -7,6 +9,33 @@ from caretaker.core.context import build_context
 from caretaker.core.reporting import write_json
 
 app = Flask(__name__, template_folder="templates", static_folder="static")
+app.config['SECRET_KEY'] = os.getenv('JWT_SECRET', 'dev-secret-key')
+
+# Authentication Middleware
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = None
+        auth_header = request.headers.get('Authorization')
+        
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(" ")[1]
+        
+        if not token:
+            return jsonify({'message': 'Token is missing!'}), 401
+        
+        try:
+            # Decode token
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=["HS256"])
+            # Attach user info to g
+            g.user = data
+        except jwt.ExpiredSignatureError:
+            return jsonify({'message': 'Token has expired!'}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({'message': 'Token is invalid!'}), 401
+            
+        return f(*args, **kwargs)
+    return decorated
 
 # Global initialization using shared context factory
 # We don't pass an owner yet, will rely on config
@@ -24,11 +53,13 @@ if not ctx.monitor:
 plugins = load_plugins()
 
 @app.route("/")
+@token_required
 def index():
     repos = ctx.client.list_user_repos(ctx.owner)
     return render_template("index.html", repos=repos)
 
 @app.route("/run/<name>")
+@token_required
 def run_plugin(name):
     # Dynamic plugin loading ensures we get the latest or correct one
     # But for simplicity we can iterate the loaded list or use get_plugin
@@ -40,15 +71,18 @@ def run_plugin(name):
     return jsonify({"error": "plugin not found"}), 404
 
 @app.route("/repos")
+@token_required
 def repos():
     repos = ctx.client.list_user_repos(ctx.owner)
     return render_template("repos.html", repos=repos)
 
 @app.route("/reports")
+@token_required
 def reports():
     return render_template("reports.html")
 
 @app.route("/cleanup/duplicates", methods=["POST"])
+@token_required
 def cleanup_duplicates():
     p = get_plugin('duplicates')
     if not p:

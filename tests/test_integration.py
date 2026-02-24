@@ -26,6 +26,12 @@ class TestAppIntegration(unittest.TestCase):
         from caretaker.app import app
         self.app = app.test_client()
         self.app.testing = True
+        
+        # Generate valid token
+        import jwt
+        self.secret_key = app.config['SECRET_KEY']
+        self.token = jwt.encode({'user': 'test_user'}, self.secret_key, algorithm="HS256")
+        self.headers = {'Authorization': f'Bearer {self.token}'}
 
     @patch('caretaker.app.ctx')
     def test_index_route(self, mock_ctx):
@@ -33,7 +39,7 @@ class TestAppIntegration(unittest.TestCase):
         mock_ctx.client.list_user_repos.return_value = [{'name': 'repo1'}]
         mock_ctx.owner = 'test_user'
         
-        response = self.app.get('/')
+        response = self.app.get('/', headers=self.headers)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'Run Duplicate Scan', response.data)
 
@@ -42,7 +48,7 @@ class TestAppIntegration(unittest.TestCase):
         mock_ctx.client.list_user_repos.return_value = [{'name': 'repo1', 'html_url': 'http://github.com/u/repo1'}]
         mock_ctx.owner = 'test_user'
         
-        response = self.app.get('/repos')
+        response = self.app.get('/repos', headers=self.headers)
         self.assertEqual(response.status_code, 200)
         # Assuming repos.html lists the repos
         # We can just check status code for now if we don't know the exact template

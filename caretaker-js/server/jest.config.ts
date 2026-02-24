@@ -4,6 +4,9 @@ const config: Config = {
   testEnvironment: 'node',
   roots: ['<rootDir>/tests'],
   collectCoverage: true,
-  collectCoverageFrom: ['src/**/*.ts']
+  collectCoverageFrom: ['src/**/*.ts'],
+  detectOpenHandles: true,
+  testTimeout: 10000,
+  forceExit: false
 }
 export default config

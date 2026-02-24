@@ -1,104 +1,67 @@
+# 🧠 HyperCode Ecosystem – AI-Powered Dev Tools for Neurodivergent Minds
+
+> "Programming languages express how minds think. We're building one that thinks like US."
+
 ![CI](https://github.com/welshDog/My-GitHub-CareTaker/actions/workflows/ci.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![HyperCode: Active](https://img.shields.io/badge/HyperCode-Active-blueviolet)
 ![Hosted on IPFS](https://img.shields.io/badge/Hosted_on-IPFS-65c2cb?logo=ipfs)
 ![Web3 Enabled](https://img.shields.io/badge/Web3-Enabled-FF3E00?logo=ethereum)
 
-# GitHub CareTaker
+## 🚀 What We Build
 
-![CI](https://github.com/welshDog/GitHub-Hyper-Agent-BROski/actions/workflows/ci.yml/badge.svg)
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
-![HyperCode: Active](https://img.shields.io/badge/HyperCode-Active-blueviolet)
+| Project | Status | Description |
+|---------|--------|-------------|
+| [THE-HYPERCODE](https://github.com/welshDog/THE-HYPERCODE) | ✅ v0.1.0 | Core language (Quantum + Molecular + Classical) |
+| [HyperFocus IDE](https://github.com/welshDog/-Hyperfocus-3D-Constellation) | 🛠️ WIP | Neurodivergent-first IDE with hyperfocus mode |
+| [Hyper Agent](https://github.com/welshDog/My-GitHub-CareTaker) | ✅ Active | AI crew for GitHub automation (**THIS** repo) |
+| [HyperCode V2](https://github.com/welshDog/HyperCode-V2.0) | 🔬 R&D | Next-gen experimental language |
 
-The ultimate autonomous agent suite designed to optimize, clean, and visualize your GitHub ecosystem. Built with a neurodivergent-first approach, Caretaker automates the boring stuff so you can stay in the zone.
+## 🎯 Why HyperCode Exists
 
-## 🚀 Key Features
+- **Built for ADHD, Dyslexia, Autism** – Spatial logic, minimal noise, sensory-friendly UX.
+- **Universal AI Compatibility** – Optimized for LLMs (GPT, Claude, Mistral, Ollama).
+- **Quantum & Molecular Ready** – Future-proof architecture.
+- **Open Source & Community-Driven** – Join the movement!
 
-- **HyperCode Duplicate Merge**: Intelligent analysis and consolidation of redundant code and repositories.
-- **Neurodivergent UX**: Features like Hyperfocus Mode and 3D constellation visualizations.
-- **Agent Swarm**: Multi-agent architecture for specialized tasks (Cleanup, Documentation, Security).
-- **Automated Infrastructure**: Built-in CI/CD, security auditing, and performance metrics.
-- **Auto Architecture Mapping**: Scans your repo and generates interactive `architecture_map.html` and detailed `architecture_map.json`, capturing modules, routes, and agent boundaries.
+## 🤖 About This Repo (Hyper Agent)
 
-## 🗺 Architecture Map
+This is the **Mission Control** for the HyperCode ecosystem. It is an autonomous agent suite that:
+- **Orchestrates** the entire repository constellation.
+- **Automates** cleanup, duplicate detection, and link recovery.
+- **Visualizes** your code universe with 3D maps.
+- **Self-Heals** via a multi-agent monitor system.
 
-This repo includes an auto-generated architecture explorer:
+### Key Features
+- **HyperCode Duplicate Merge**: Intelligent consolidation of redundant code.
+- **Neurodivergent UX**: 3D constellation visualizations (`architecture_map.html`).
+- **Agent Swarm**: Specialized agents for Security, Documentation, and Hygiene.
+- **Automated Infrastructure**: Self-aware architecture that maps itself.
 
-- `architecture_map.html` – interactive dependency + API map
-- `architecture_map.json` – machine-readable graph for agents
+## 🧩 Quick Start
 
-Regenerate anytime:
-
-```bash
-python caretaker_cli.py explore --owner welshDog
-```
-
-### System Overview
-The v2.0 architecture features a clear separation between the Core logic and Plugin Agents:
-- **Core Layer**: `caretaker.core` handles configuration, GitHub API client, and reporting.
-- **Plugin Layer**: `caretaker.plugins` contains specialized agents (Monitor, Repo Explorer, Link Recovery).
-- **Hybrid Stack**: Seamless integration between Python backend (Flask) and JavaScript frontend (Express/React).
-
-## 🧠 Self-Aware Architecture
-
-CareTaker isn't just a collection of scripts; it understands its own structure.
-
-Run the explorer to generate a live map of the system:
+### 1. Clone the Ecosystem
 
 ```bash
-python caretaker_cli.py explore --owner welshDog --output latest_arch.json
-```
+# Clone the core language
+git clone https://github.com/welshDog/THE-HYPERCODE
 
-This generates:
-
-- `latest_arch.json`: Full dependency + call graph of the running agents.
-- `architecture_report.md`: Principal-engineer style review (risks, refactors, security notes).
-
-This architectural self-awareness allows agents to:
-1.  **Monitor themselves**: The MonitorAgent checks the health of other plugins.
-2.  **Optimize performance**: Lazy-loading ensures only required agents are active.
-3.  **Heal configuration**: The system can detect missing dependencies and alert the user.
-
-## 🌟 Pinned Repositories
-
-These links are live projects in my ecosystem – CareTaker doesn’t own them, it helps **orchestrate and maintain** them.
-
-Here are the top projects currently in the Hyperfocus Constellation:
-
-1.  **[GitHub-Hyper-Agent-BROski](https://github.com/welshDog/GitHub-Hyper-Agent-BROski)**
-    *The autonomous agent framework driving this ecosystem. Features self-healing infrastructure, agent swarms, and neurodivergent-friendly tools.*
-
-2.  **[-Hyperfocus-3D-Constellation](https://github.com/welshDog/-Hyperfocus-3D-Constellation)**
-    *The world's most advanced 3D repository visualization designed for neurodivergent minds.*
-
-3.  **[hyperfocus-constellation](https://github.com/welshDog/hyperfocus-constellation)**
-    *A star map of all the hyperfocus zone repos, visualizing the connections between your projects.*
-
-4.  **[hyperfocus-constellation-paper](https://github.com/welshDog/hyperfocus-constellation-paper)**
-    *Revolutionary 3D interactive research paper on vibe coding and hyperfocus superpowers.*
-
-5.  **[Caretaker-CLI](https://github.com/welshDog/caretaker-cli)**
-    *The command-line interface for the Caretaker suite, enabling quick local management of your repo ecosystem.*
-
-6.  **[Caretaker-Core](https://github.com/welshDog/caretaker-core)**
-    *The foundational logic powering the Caretaker agents, with plugin support for custom workflows.*
-
-## 🛠️ HyperCode Operations
-
-### Duplicate Merge Status
-**Status:** ✅ Executed
-**Report:** `reports/duplicates.json`
-
-The HyperCode engine has scanned the codebase for redundancies. Redundant JavaScript test files have been consolidated into TypeScript equivalents to improve maintainability and type safety.
-
-## 📦 Installation & Usage
-
-### 1. Clone this repo
-
-```bash
-git clone https://github.com/welshDog/My-GitHub-CareTaker.git
+# Clone the agent (this repo)
+git clone https://github.com/welshDog/My-GitHub-CareTaker
 cd My-GitHub-CareTaker
 ```
 
-### 2. Start the web UI (JS server)
+### 2. Run the Agent
+
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Launch the Caretaker CLI
+python caretaker_cli.py explore --owner welshDog
+```
+
+### 3. Start the Dashboard
 
 ```bash
 cd caretaker-js/server
@@ -106,10 +69,26 @@ npm install
 npm start
 ```
 
-### 3. (Optional) Run the Python CLI
+## ⭐ Star the Ecosystem
 
-```bash
-cd ../..
-pip install -r requirements.txt
-python caretaker_cli.py --username welshDog
-```
+- ⭐ [THE-HYPERCODE](https://github.com/welshDog/THE-HYPERCODE) – Core language
+- ⭐ [HyperFocus IDE](https://github.com/welshDog/-Hyperfocus-3D-Constellation) – The IDE
+- ⭐ [This Repo](https://github.com/welshDog/My-GitHub-CareTaker) – AI automation tools
+- ⭐ [V2 Experiments](https://github.com/welshDog/HyperCode-V2.0) – Next-gen features
+
+## 📊 Ecosystem Health
+
+| Repo | Stars | Forks | Issues | Last Update |
+|------|-------|-------|--------|-------------|
+| THE-HYPERCODE | 1 | 0 | 2 | 3 days ago |
+| HyperFocus IDE | 0 | 0 | 0 | 1 week ago |
+| This Repo | 0 | 0 | 0 | 2 days ago |
+| V2 Experiments | 0 | 0 | 0 | 1 month ago |
+
+*Auto-updated by Hyper Agent*
+
+## 🤝 Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+**Join the movement. Star ⭐ and share if you vibe with it!**

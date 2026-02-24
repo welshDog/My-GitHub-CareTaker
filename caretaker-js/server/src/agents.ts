@@ -29,7 +29,7 @@ export function agentRoutes(app:any, redis:Redis){
     for(const lvl of levels){ item = await redis.rpop(`agent:queue:${lvl}`); if(item) break }
     return item
   }
-  setInterval(async ()=>{
+  const queueInterval = setInterval(async ()=>{
     const item = await popQueue()
     if(!item) return
     try{
@@ -43,8 +43,10 @@ export function agentRoutes(app:any, redis:Redis){
     }catch(err){ logger.error(err as any) }
   }, 1000)
 
-  setInterval(async ()=>{
+  const reviewInterval = setInterval(async ()=>{
     const items = await redis.lrange('agent:reviews', 0, -1)
     if(items.length){ logger.info({ count: items.length }, 'aggregated reviews available') }
   }, 5000)
+  
+  return { queueInterval, reviewInterval }
 }
