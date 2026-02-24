@@ -14,6 +14,7 @@
 |---------|--------|-------------|
 | [THE-HYPERCODE](https://github.com/welshDog/THE-HYPERCODE) | ✅ v0.1.0 | Core language (Quantum + Molecular + Classical) |
 | [HyperFocus IDE](https://github.com/welshDog/-Hyperfocus-3D-Constellation) | 🛠️ WIP | Neurodivergent-first IDE with hyperfocus mode |
+| [HyperFlow Editor](https://github.com/welshDog/HyperFlow-next) | 🚀 New | The Visual Editor (Next.js Edition) |
 | [Hyper Agent](https://github.com/welshDog/My-GitHub-CareTaker) | ✅ Active | AI crew for GitHub automation (**THIS** repo) |
 | [HyperCode V2](https://github.com/welshDog/HyperCode-V2.0) | 🔬 R&D | Next-gen experimental language |
 
