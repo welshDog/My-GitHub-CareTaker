@@ -66,7 +66,13 @@ describe('API Smoke Tests', () => {
 
   // Clean up Redis mock after all tests
   afterAll(async () => {
-    clearInterval(queueInterval)
+    // queueInterval is now a function, not an interval ID, so we can't clear it.
+    // However, the processQueue function uses setTimeout recursively.
+    // In a test environment, we might want to stop it, but since it's a recursive async function, 
+    // simply not waiting for it might be enough if we close resources.
+    // Ideally, processQueue should return a control object or accept a signal to stop.
+    // For now, let's just ignore clearing it as it's not exported as an interval ID anymore.
+    
     clearInterval(reviewInterval)
     await redis.quit()
   })

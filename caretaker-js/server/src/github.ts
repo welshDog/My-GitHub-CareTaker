@@ -26,12 +26,21 @@ export class GitHub {
       }`
     let after: string|undefined
     const nodes:any[]=[]
-    while(true){
+    let safetyCounter = 0
+    const MAX_PAGES = 100 // Safety limit
+
+    while(safetyCounter < MAX_PAGES){
       const r:any = await this.client.request(q, { login, after })
       const page = r.user.repositories
       nodes.push(...page.nodes)
+      
       if(!page.pageInfo.hasNextPage) break
+      
+      // FIX: Prevent infinite loop if cursor doesn't change
+      if(after === page.pageInfo.endCursor) break
+      
       after = page.pageInfo.endCursor
+      safetyCounter++
     }
     return nodes
   }

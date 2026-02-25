@@ -16,7 +16,22 @@ const app = express()
 app.use(cors())
 app.use(bodyParser.json({ limit: '2mb', verify: rawBodyCapture() }))
 
-const redis = new Redis(config.redisUrl)
+// FIX: Robust Redis connection with error handling
+const redis = new Redis(config.redisUrl, {
+  retryStrategy: (times) => {
+    const delay = Math.min(times * 50, 2000);
+    return delay;
+  }
+})
+
+redis.on('error', (err) => {
+  logger.error({ err }, 'Redis connection error')
+})
+
+redis.on('connect', () => {
+  logger.info('Redis connected')
+})
+
 const gh = new GitHub(config.token)
 
 app.get('/api/auth/validate', async (_req, res)=>{

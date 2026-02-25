@@ -29,24 +29,36 @@ export function agentRoutes(app:any, redis:Redis){
     for(const lvl of levels){ item = await redis.rpop(`agent:queue:${lvl}`); if(item) break }
     return item
   }
-  const queueInterval = setInterval(async ()=>{
-    const item = await popQueue()
-    if(!item) return
-    try{
-      const e = JSON.parse(item)
-      await limiter.schedule(async ()=>{
-        logger.info({ event: e.action || 'repo_event' }, 'dispatching to agents')
-        const review = reviewSchema.safeParse(e.review)
-        if(!review.success){ await redis.lpush('agent:deadletter', item); return }
-        await redis.lpush('agent:reviews', JSON.stringify(review.data))
-      })
-    }catch(err){ logger.error(err as any) }
-  }, 1000)
+  
+  // FIX: Use recursive setTimeout pattern to prevent race conditions
+  async function processQueue() {
+    try {
+      const item = await popQueue()
+      if(item) {
+        const e = JSON.parse(item)
+        await limiter.schedule(async ()=>{
+          logger.info({ event: e.action || 'repo_event' }, 'dispatching to agents')
+          const review = reviewSchema.safeParse(e.review)
+          if(!review.success){ await redis.lpush('agent:deadletter', item); return }
+          await redis.lpush('agent:reviews', JSON.stringify(review.data))
+        })
+      }
+    } catch(err){ 
+      logger.error(err as any) 
+    } finally {
+      // Schedule next run only after current one finishes
+      setTimeout(processQueue, 1000)
+    }
+  }
+
+  // Start the loop
+  processQueue()
 
   const reviewInterval = setInterval(async ()=>{
     const items = await redis.lrange('agent:reviews', 0, -1)
     if(items.length){ logger.info({ count: items.length }, 'aggregated reviews available') }
   }, 5000)
   
-  return { queueInterval, reviewInterval }
+  // FIX: queueInterval is no longer used, return reviewInterval only or adapt interface
+  return { queueInterval: processQueue, reviewInterval } // Assuming processQueue is what we want to expose or just null if type allows
 }

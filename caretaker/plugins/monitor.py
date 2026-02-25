@@ -7,6 +7,7 @@ Solves 40-89% of agent miscommunication failures by monitoring
 interactions between Cleanup, Documentation, and Security agents.
 """
 
+from collections import deque
 from typing import Dict, List, Optional
 from datetime import datetime
 from . import Plugin
@@ -18,8 +19,8 @@ class MonitorAgent(Plugin):
     def __init__(self):
         super().__init__()
         self.agent_states = {}
-        self.failure_log = []
-        self.communication_history = []
+        self.failure_log = deque(maxlen=1000)
+        self.communication_history = deque(maxlen=10000)
     
     def track_agent_communication(self, 
                                   sender: str, 
@@ -48,7 +49,17 @@ class MonitorAgent(Plugin):
             
             # Attempt auto-correction
             corrected = self.auto_correct_communication(sender, receiver, message, validation)
-            return corrected
+            
+            # FIX: Update status if correction worked
+            if corrected:
+                comm_entry["status"] = "corrected"
+                comm_entry["corrected_message"] = corrected
+                return corrected
+            
+            return corrected # Return corrected (which might be None/Empty or partial)
+        
+        comm_entry["status"] = "success"
+        return message
         
         comm_entry["status"] = "success"
         return message
