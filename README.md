@@ -34,6 +34,7 @@ This is the **Mission Control** for the HyperCode ecosystem. It is an autonomous
 - **Self-Heals** via a multi-agent monitor system.
 
 ### Key Features
+- **Profile Optimizer**: An 18KB standalone Python script that auto-optimizes your GitHub profile for SEO and discoverability. (`profile_optimizer.py`)
 - **HyperCode Duplicate Merge**: Intelligent consolidation of redundant code.
 - **Neurodivergent UX**: 3D constellation visualizations (`architecture_map.html`).
 - **Agent Swarm**: Specialized agents for Security, Documentation, and Hygiene.
